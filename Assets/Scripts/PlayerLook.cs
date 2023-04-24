@@ -1,25 +1,24 @@
-using Unity.Mathematics;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
     private Vector2 newLook;
-    [SerializeField] private float lookSpeed;
-    [SerializeField] Camera cam;
-    [SerializeField] private GameObject hand;
+    [SerializeField] private Camera cam;
+    [SerializeField] private Transform orientation;
+    [SerializeField] private float speedMultiplayer = 1f;
 
+    private void Start()
+    {
+        orientation.transform.rotation = Quaternion.Euler(0, newLook.y , 0);
+    }
     public void OnLook(InputValue input)
     {
         newLook = InputManager.Instance.GetLookValue(input);
 
-        newLook = new Vector2(-newLook.y * lookSpeed * Time.deltaTime, newLook.x * lookSpeed * Time.deltaTime);
+        newLook = new Vector2(newLook.y * speedMultiplayer * Time.deltaTime, newLook.x * speedMultiplayer * Time.deltaTime);
 
-        cam.transform.Rotate(newLook * lookSpeed * Time.deltaTime);
-        hand.transform.Rotate(newLook * lookSpeed * Time.deltaTime);
-
-        cam.transform.rotation = hand.transform.rotation;
+        transform.Rotate(newLook);
     }
-
-
 }

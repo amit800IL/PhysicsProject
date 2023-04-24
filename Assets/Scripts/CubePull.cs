@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,11 +7,16 @@ public class CubePull : MonoBehaviour
     [SerializeField] private float distance;
     private void Update()
     {
-        bool raycast = Physics.Raycast(cube.transform.position, transform.position - cube.transform.position);
+        PullCube();
+    }
 
+    public void PullCube()
+    {
+        bool raycast = Physics.Raycast(cube.transform.position, transform.position - cube.transform.position);
+        Debug.Log(raycast);
         if (Mouse.current.rightButton.isPressed && raycast)
         {
-            Vector3.MoveTowards(cube.transform.position,transform.position, distance);
+            Vector3.MoveTowards(cube.transform.position, transform.position, distance);
             cube.transform.Translate(transform.position);
             cube.transform.position = transform.position;
         }
