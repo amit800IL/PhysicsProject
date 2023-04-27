@@ -13,7 +13,7 @@ public class PlayerLook : MonoBehaviour
     {
         orientation.transform.rotation = Quaternion.Euler(0, default , 0);
     }
-    public void OnLook(InputValue input)
+    private void OnLook(InputValue input)
     {
         newLook = InputManager.Instance.GetLookValue(input);
 

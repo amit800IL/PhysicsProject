@@ -9,16 +9,17 @@ public class CubePull : MonoBehaviour
     [SerializeField] private GameObject acceptor;
     [SerializeField] private GameObject ceillingObject;
     [SerializeField] private float distance;
+    [SerializeField] private ParticleSystem wind;
     private void Update()
     {
         PullCube();
         CubeToAcceptor();
+        CubeToCeiling();
     }
 
-    public void PullCube()
+    private void PullCube()
     {
         bool cubeToPlayerRaycast = Physics.Raycast(cube.transform.position, transform.position, distance);
-     
 
         if (Mouse.current.leftButton.isPressed && cubeToPlayerRaycast)
         {
@@ -26,11 +27,9 @@ public class CubePull : MonoBehaviour
             cube.transform.position = transform.position;
         }
 
-    
-
     }
 
-    public void CubeToAcceptor()
+    private void CubeToAcceptor()
     {
         bool cubeToAcceptorRaycast = Physics.Raycast(cube.transform.position, acceptor.transform.position, distance);
 
@@ -38,26 +37,28 @@ public class CubePull : MonoBehaviour
         {
             cubeRigibBody.velocity = new Vector3(0, 10, 0);
             StartCoroutine(flyToAcceptor());
-            if (cube.transform.position == acceptor.transform.position)
-            {
-                StartCoroutine(FlyToCeilling());
-            }
         }
     }
 
+    private void CubeToCeiling()
+    {
+        if (cube.transform.position == acceptor.transform.position)
+        {
+            StartCoroutine(FlyToCeilling());
+        }
+    }
     private IEnumerator flyToAcceptor()
     {
         yield return new WaitForSeconds(5);
         Vector3.MoveTowards(cube.transform.position, acceptor.transform.position - cube.transform.position, distance);
         cube.transform.position = acceptor.transform.position;
-        
+
     }
 
     private IEnumerator FlyToCeilling()
     {
         yield return new WaitForSeconds(5);
-        cubeRigibBody.useGravity = false;
-        Vector3.MoveTowards(cube.transform.position, ceillingObject.transform.position - acceptor.transform.position, distance);
+        Vector3.MoveTowards(cube.transform.position, ceillingObject.transform.position - cube.transform.position, distance);
         cube.transform.position = ceillingObject.transform.position;
     }
 
@@ -67,4 +68,5 @@ public class CubePull : MonoBehaviour
         Gizmos.DrawLine(cube.transform.position, acceptor.transform.position);
         Gizmos.DrawLine(cube.transform.position, ceillingObject.transform.position);
     }
+
 }

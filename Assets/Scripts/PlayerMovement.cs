@@ -8,11 +8,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float groudDistance;
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody rigibBody;
-    [SerializeField] LayerMask GroundMask;
-    [SerializeField] Transform groundCheck;
+    [SerializeField] private LayerMask GroundMask;
+    [SerializeField] private Transform groundCheck;
 
     private void Start()
     {
+        IsGrounded();
+
         newMove = moveInput.x * transform.right + moveInput.y * transform.forward;
 
         if (newMove.magnitude > 1)
@@ -21,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnMove(InputValue value)
+    private void OnMove(InputValue value)
     {
         newMove = InputManager.Instance.GetMoveValue(value);
 
