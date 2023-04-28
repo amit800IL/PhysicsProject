@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class CubePull : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class CubePull : MonoBehaviour
     [SerializeField] private GameObject acceptor;
     [SerializeField] private GameObject ceillingObject;
     [SerializeField] private float distance;
-    [SerializeField] private ParticleSystem wind;
+    [SerializeField] private float movementSpeed;
     private void Update()
     {
         PullCube();
@@ -23,7 +24,7 @@ public class CubePull : MonoBehaviour
 
         if (Mouse.current.leftButton.isPressed && cubeToPlayerRaycast)
         {
-            Vector3.MoveTowards(cube.transform.position, transform.position - cube.transform.position, distance);
+            Vector3.MoveTowards(cube.transform.position, transform.position - cube.transform.position, movementSpeed * Time.deltaTime);
             cube.transform.position = transform.position;
         }
 
@@ -35,7 +36,7 @@ public class CubePull : MonoBehaviour
 
         if (Mouse.current.leftButton.wasReleasedThisFrame & cubeToAcceptorRaycast)
         {
-            cubeRigibBody.velocity = new Vector3(0, 10, 0);
+            cubeRigibBody.velocity = new Vector3(0, 10, -15);
             StartCoroutine(flyToAcceptor());
         }
     }
@@ -49,16 +50,16 @@ public class CubePull : MonoBehaviour
     }
     private IEnumerator flyToAcceptor()
     {
-        yield return new WaitForSeconds(5);
-        Vector3.MoveTowards(cube.transform.position, acceptor.transform.position - cube.transform.position, distance);
+        yield return new WaitForSeconds(2);
+        Vector3.MoveTowards(cube.transform.position, acceptor.transform.position - cube.transform.position, movementSpeed * Time.deltaTime);
         cube.transform.position = acceptor.transform.position;
 
     }
 
     private IEnumerator FlyToCeilling()
     {
-        yield return new WaitForSeconds(5);
-        Vector3.MoveTowards(cube.transform.position, ceillingObject.transform.position - cube.transform.position, distance);
+        yield return new WaitForSeconds(2);
+        Vector3.MoveTowards(cube.transform.position, ceillingObject.transform.position - cube.transform.position, movementSpeed * Time.deltaTime);
         cube.transform.position = ceillingObject.transform.position;
     }
 
@@ -68,5 +69,5 @@ public class CubePull : MonoBehaviour
         Gizmos.DrawLine(cube.transform.position, acceptor.transform.position);
         Gizmos.DrawLine(cube.transform.position, ceillingObject.transform.position);
     }
-
 }
+
