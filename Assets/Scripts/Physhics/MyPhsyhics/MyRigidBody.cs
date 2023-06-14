@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MyRigidBody : MonoBehaviour
 {
     private float gravity = 9.8f;
     private bool IsGrounded;
     private Vector3 velocity;
-    [SerializeField] private Vector3 force; 
-    [SerializeField] private float mass; 
-    [SerializeField] private float radius; 
+    [SerializeField] private Vector3 force;
+    [SerializeField] private float mass;
+    [SerializeField] private float radius;
     [SerializeField] private Vector3 Accelration;
     [SerializeField] private float Distance;
     [SerializeField] private bool UseGravity;
@@ -24,22 +25,24 @@ public class MyRigidBody : MonoBehaviour
     {
         if (UseGravity)
         {
-            force += gravity * Vector3.down * 1 / 50;
+            force += gravity * Vector3.down * Time.fixedDeltaTime;
         }
     }
 
     public void ApplyForce()
     {
         velocity += force * Time.fixedDeltaTime;
-        transform.position += force * 1 / 50;
     }
 
-   
+
     public void PullandPush(Vector3 startPos, Vector3 endPos)
     {
+   
         Vector3 direction = Vector3.Normalize(endPos - startPos);
+        direction.z = 0;
 
         force = gravity * direction;
+
     }
 
     public void CheckCollision()
@@ -72,7 +75,7 @@ public class MyRigidBody : MonoBehaviour
         otherObjects.velocity = tempVelocity;
 
         force = gravity * velocity;
-   
+
     }
 
     public void UpdatePosition()
