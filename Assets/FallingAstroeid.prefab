@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5491762166517008783}
   - component: {fileID: -6527231331591290525}
   - component: {fileID: 1277450166}
+  - component: {fileID: 330728758431115296}
   m_Layer: 0
   m_Name: FallingAstroeid
   m_TagString: Untagged
@@ -165,3 +166,16 @@ MonoBehaviour:
   Distance: 20
   useGravity: 0
   moveSpeed: 5
+--- !u!114 &330728758431115296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525697572991576568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25313816b9100b24580e29c452bf06fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigid: {fileID: 1277450166}

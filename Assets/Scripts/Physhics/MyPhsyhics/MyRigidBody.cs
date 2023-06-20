@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyRigidBody : MonoBehaviour
@@ -59,8 +60,6 @@ public class MyRigidBody : MonoBehaviour
 
         transform.position += direction * moveSpeed * Time.fixedDeltaTime;
 
-        //force = Vector3.zero;
-
     }
 
     private void CheckCollision()
@@ -98,9 +97,6 @@ public class MyRigidBody : MonoBehaviour
 
         velocity -= (impulse / mass);
         otherObjects.velocity += (impulse / otherObjects.mass);
-
-        Destroy(gameObject);
-        Destroy(otherObjects.gameObject);
     }
 
     private void UpdatePosition()

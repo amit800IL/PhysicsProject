@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 461076248219018369}
   - component: {fileID: 1175354460206500349}
   - component: {fileID: 1606993904}
+  - component: {fileID: 6284970920795458261}
   m_Layer: 0
   m_Name: AsteroidWeapon
   m_TagString: Untagged
@@ -101,7 +102,7 @@ MonoBehaviour:
   overrideForce: 0
   velocity: {x: 0, y: 0, z: 0}
   force: {x: 0, y: 10, z: 0}
-  mass: 5
+  mass: 2
   radius: 1
   Distance: 20
   useGravity: 1
@@ -165,3 +166,20 @@ PolygonCollider2D:
       - {x: -0.19, y: -1.02}
       - {x: 0.089999996, y: -1.1}
       - {x: 0.29, y: -1.12}
+--- !u!114 &6284970920795458261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122214560388886015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00edad08606da3d45847fc6befa47ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  astroeid: {fileID: 122214560388886015}
+  distance: 5
+  movementSpeed: 5
+  pulledPosition: {x: 0, y: 0, z: 0}
+  backGround: {fileID: 0}
