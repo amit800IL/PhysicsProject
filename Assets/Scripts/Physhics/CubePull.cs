@@ -1,16 +1,14 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CubePull : MonoBehaviour
 {
-    [SerializeField] private GameObject cube;
+    [SerializeField] private GameObject astroeid;
     [SerializeField] private float distance;
     [SerializeField] private float movementSpeed;
-    [SerializeField] private MyRigidBody NewRigidBody;
+    [SerializeField] private MyRigidBody astroeidRigidBody;
     [SerializeField] private Vector3 pulledPosition;
-    [SerializeField] private bool beenPulled;
-    [SerializeField] private bool beenPushed;
+    [SerializeField] private GameObject backGround;
     private void FixedUpdate()
     {
         PullCube();
@@ -20,24 +18,27 @@ public class CubePull : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            pulledPosition = cube.transform.position;
+            pulledPosition = astroeid.transform.position;
         }
 
         if (Mouse.current.leftButton.isPressed)
         {
-            NewRigidBody.PullandPush(cube.transform.position, transform.position);
+            astroeidRigidBody.PullandPush(astroeid.transform.position, transform.position);
         }
 
         if (Mouse.current.rightButton.isPressed)
         {
-            Vector3 mousePos = Mouse.current.position.ReadValue();
-            mousePos.z = Camera.main.nearClipPlane;
-            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(mousePos);
-            Debug.Log("target pos " + worldPoint);
-            NewRigidBody.PullandPush(worldPoint, cube.transform.position);
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Vector3 worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x,
+            mousePos.y, Camera.main.nearClipPlane));
+            astroeidRigidBody.PullandPush(pulledPosition, worldPoint);
+        }
+
+        if (!Mouse.current.rightButton.isPressed && !Mouse.current.leftButton.isPressed)
+        {
+            astroeidRigidBody.overrideForce = false;
         }
     }
-
 }
 
 
