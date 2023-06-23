@@ -1,15 +1,17 @@
 using System.Collections.Generic;
-
-
+using UnityEngine;
 public class FallingAstroeids : MyRigidBody
 {
+    [field: SerializeField] public AudioSource CollisionExplosionSound { get; private set; }
+    [field: SerializeField] public ParticleSystem CollisionExplosion { get; private set; }
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
 
         List<FallingAstroeids> myRigidBodies = GameManager.Instance.GetFallingAstroeidList();
-        WeaponAstroeid weaponAstroeid = GameManager.Instance.WeaponAstroeid;
         List<FallingAstroeids> CollidingFallingAstroeids = new List<FallingAstroeids>();
+        WeaponAstroeid weaponAstroeid = GameManager.Instance.WeaponAstroeid;
 
         foreach (FallingAstroeids fallingAstroeid in myRigidBodies)
         {
@@ -21,7 +23,7 @@ public class FallingAstroeids : MyRigidBody
 
         foreach (FallingAstroeids FallingAstroeid in CollidingFallingAstroeids)
         {
-            GameManager.Instance.DestroyFallingAstroeid(FallingAstroeid);
+           StartCoroutine(GameManager.Instance.DestroyFallingAstroeid(FallingAstroeid));
         }
     }
 }
