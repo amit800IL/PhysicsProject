@@ -1,43 +1,40 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class MyRigidBody : MonoBehaviour
+public abstract class MyRigidBody : MonoBehaviour
 {
-    public Vector3 Accelration { get => force / mass; }
     [HideInInspector] public bool overrideForce;
-
-    private float gravity = 9.8f;
-    private bool IsGrounded;
     [HideInInspector] public Vector3 velocity;
-    [SerializeField] private Vector3 force;
-    [SerializeField] private float mass;
-    [SerializeField] private float radius;
-    [SerializeField] private float Distance;
-    [SerializeField] private bool useGravity;
-    [SerializeField] private float moveSpeed;
-    public bool UseGravity
+    public Vector3 Accelration { get => force / mass; }
+    protected float gravity = 9.8f;
+    protected bool IsGrounded;
+    [SerializeField] protected Vector3 force;
+    [SerializeField] protected float mass;
+    [SerializeField] protected float radius;
+    [SerializeField] protected float Distance;
+    [SerializeField] protected bool useGravity;
+    [SerializeField] protected float moveSpeed;
+    protected bool UseGravity
     {
         get => useGravity;
 
         set
         {
             useGravity = value;
-            Debug.Log(value);
         }
     }
 
-    private void Start()
+    protected void Start()
     {
         ApplyGravity();
     }
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         Accelrate();
         CheckCollision();
         UpdatePosition();
     }
 
-    public void ApplyGravity()
+    protected void ApplyGravity()
     {
         if (UseGravity)
         {
@@ -45,12 +42,12 @@ public class MyRigidBody : MonoBehaviour
         }
     }
 
-    public void Accelrate()
+    protected void Accelrate()
     {
         velocity += Accelration * Time.fixedDeltaTime;
     }
 
-    public void PullandPush(Vector3 startPos, Vector3 endPos)
+    protected void PullandPush(Vector3 startPos, Vector3 endPos)
     {
 
         overrideForce = true;
@@ -62,7 +59,7 @@ public class MyRigidBody : MonoBehaviour
 
     }
 
-    private void CheckCollision()
+    protected void CheckCollision()
     {
         MyRigidBody[] rigidBodyObjects = FindObjectsOfType<MyRigidBody>();
 
@@ -70,13 +67,12 @@ public class MyRigidBody : MonoBehaviour
         {
             if (otherObject != this && IsCollidingWith(otherObject))
             {
-                Debug.Log("Collision Handeled");
                 handeCollision(otherObject);
             }
         }
     }
 
-    private bool IsCollidingWith(MyRigidBody otherObjects)
+    protected bool IsCollidingWith(MyRigidBody otherObjects)
     {
         float CombiendRadius = radius + otherObjects.radius;
 
@@ -85,7 +81,7 @@ public class MyRigidBody : MonoBehaviour
         return distance <= CombiendRadius;
     }
 
-    private void handeCollision(MyRigidBody otherObjects)
+    protected void handeCollision(MyRigidBody otherObjects)
     {
         float combinedMass = mass + otherObjects.mass;
         float combinedRadius = radius + otherObjects.radius;
@@ -99,7 +95,7 @@ public class MyRigidBody : MonoBehaviour
         otherObjects.velocity += (impulse / otherObjects.mass);
     }
 
-    private void UpdatePosition()
+    protected void UpdatePosition()
     {
         if (!overrideForce)
             transform.position += velocity * Time.fixedDeltaTime;

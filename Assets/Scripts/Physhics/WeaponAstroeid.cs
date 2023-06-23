@@ -2,15 +2,16 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponAstroeid : MonoBehaviour
+public class WeaponAstroeid : MyRigidBody
 {
     private Vector3 pulledPosition;
     [SerializeField] private float distance;
     [SerializeField] private float movementSpeed;
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+
         PullCube();
-        CreateGameObject();
     }
 
     private void PullCube()
@@ -36,14 +37,6 @@ public class WeaponAstroeid : MonoBehaviour
         if (!Mouse.current.rightButton.isPressed && !Mouse.current.leftButton.isPressed)
         {
             GameManager.Instance.WeaponAstroeid.overrideForce = false;
-        }
-    }
-
-    public void CreateGameObject()
-    {
-        if (GameManager.Instance.WeaponAstroeid.IsDestroyed())
-        {
-            Instantiate(GameManager.Instance.WeaponAstroeid, GameManager.Instance.Player.transform.position + new Vector3(10, 0, 0), GameManager.Instance.Player.transform.rotation);
         }
     }
 }
