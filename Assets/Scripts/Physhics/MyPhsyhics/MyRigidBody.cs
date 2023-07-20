@@ -23,7 +23,7 @@ public abstract class MyRigidBody : MonoBehaviour
         }
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         ApplyGravity();
     }
@@ -84,21 +84,40 @@ public abstract class MyRigidBody : MonoBehaviour
     protected void handeCollision(MyRigidBody otherObjects)
     {
         float combinedMass = mass + otherObjects.mass;
-        float combinedRadius = radius + otherObjects.radius;
+        float combiendRadius = radius + otherObjects.radius;
 
         Vector3 relativeVelocity = velocity - otherObjects.velocity;
 
-        float impulseMagnitude = (2 * combinedMass * relativeVelocity.magnitude) / (combinedMass * combinedRadius);
+        //This is a clacultion for when the objects collide they get force addition on both sides
+        //The object that collides with the other object gets slower slower using its mass and impuslse
+        //The other object gets faster and takes in the collision impact
+
+        float arbitaryMultipiction = 50f;
+
+        float impulseMagnitude = (arbitaryMultipiction * combiendRadius * relativeVelocity.magnitude) / (combinedMass * combiendRadius);
+
         Vector3 impulse = impulseMagnitude * relativeVelocity.normalized;
 
         velocity -= (impulse / mass);
+
         otherObjects.velocity += (impulse / otherObjects.mass);
+
+        //not allowing the object to create overallay on each other after collision detection
+
+        Vector3 seprationDirection = (transform.position - otherObjects.transform.position).normalized;
+
+        float seperationDistnace = combiendRadius - Vector3.Distance(transform.position, otherObjects.transform.position);
+
+        transform.position += (seprationDirection) * (seperationDistnace / 2f);
+        otherObjects.transform.position -= (seprationDirection) * (seperationDistnace / 2f);
     }
 
     protected void UpdatePosition()
     {
         if (!overrideForce)
+        {
             transform.position += velocity * Time.fixedDeltaTime;
+        }
     }
 
 }

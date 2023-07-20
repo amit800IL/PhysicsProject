@@ -4,6 +4,14 @@ public class FallingAstroeids : MyRigidBody
 {
     [field: SerializeField] public AudioSource CollisionExplosionSound { get; private set; }
     [field: SerializeField] public ParticleSystem CollisionExplosion { get; private set; }
+    public Vector3 startingPoistion { get; private set; }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        startingPoistion = transform.position;
+    }
 
     protected override void FixedUpdate()
     {
@@ -18,12 +26,16 @@ public class FallingAstroeids : MyRigidBody
             if (fallingAstroeid.IsCollidingWith(weaponAstroeid))
             {
                 CollidingFallingAstroeids.Add(fallingAstroeid);
+
+                fallingAstroeid.transform.position -= Accelration.normalized;
+
             }
+
         }
 
         foreach (FallingAstroeids FallingAstroeid in CollidingFallingAstroeids)
         {
-           StartCoroutine(GameManager.Instance.DestroyFallingAstroeid(FallingAstroeid));
+            StartCoroutine(GameManager.Instance.DestroyFallingAstroeid(FallingAstroeid));
         }
     }
 }

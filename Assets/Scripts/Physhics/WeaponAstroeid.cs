@@ -23,7 +23,7 @@ public class WeaponAstroeid : MyRigidBody
 
         if (Mouse.current.leftButton.isPressed)
         {
-            GameManager.Instance.WeaponAstroeid.PullandPush(transform.position, GameManager.Instance.Player.transform.position);
+            PullandPush(transform.position, GameManager.Instance.Player.transform.position);
         }
 
         if (Mouse.current.rightButton.isPressed)
@@ -31,12 +31,12 @@ public class WeaponAstroeid : MyRigidBody
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector3 worldPoint = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x,
             mousePos.y, Camera.main.nearClipPlane));
-            GameManager.Instance.WeaponAstroeid.PullandPush(pulledPosition, worldPoint);
+            PullandPush(pulledPosition, worldPoint);
         }
 
         if (!Mouse.current.rightButton.isPressed && !Mouse.current.leftButton.isPressed)
         {
-            GameManager.Instance.WeaponAstroeid.overrideForce = false;
+            overrideForce = false;
         }
     }
 }
