@@ -1,19 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MyRigidBody
 {
     private Vector2 newMove;
     private Vector2 moveInput;
-    [SerializeField] private float groudDistance;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private Rigidbody2D rigibBody;
-    [SerializeField] private LayerMask GroundMask;
-    [SerializeField] private Transform groundCheck;
 
-    private void Start()
+    protected override void Start()
     {
-        IsGrounded();
+        base.Start();
 
         newMove = moveInput.x * transform.right + moveInput.y * transform.forward;
 
@@ -22,6 +17,14 @@ public class PlayerMovement : MonoBehaviour
             newMove.Normalize();
         }
     }
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        if (newMove != null)
+            force = newMove * moveSpeed * Accelration;
+    }
+
 
     private void OnMove(InputValue value)
     {
@@ -29,15 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
         newMove = new Vector2(newMove.x, newMove.y);
 
-        rigibBody.velocity = newMove * moveSpeed;
+        velocity = newMove * moveSpeed;
     }
-
-    private void FixedUpdate()
-    {
-        if (newMove != null)
-            rigibBody.AddForce(newMove * moveSpeed, ForceMode2D.Impulse);
-    }
-
-    public void IsGrounded() => Physics.CheckSphere(groundCheck.position, groudDistance, GroundMask);
 
 }
